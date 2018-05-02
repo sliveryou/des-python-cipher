@@ -29,7 +29,7 @@ def cipher(message, key, mode='encrypt'):
 def fill(string):
     mod = len(string) % 8
     space = 8 - mod
-    return string + string[:space]
+    return string + bytes([0 for _ in range(space)]).decode('utf-8')
 
 
 class DES:
@@ -76,7 +76,7 @@ class DES:
             result = cipher(self.message[i * 8:i * 8 + 8], self.key, 'decrypt')
             output.append(result)
 
-        return ''.join(output)
+        return ''.join(output).rstrip(b'\x00'.decode('utf-8'))
 
 
 if __name__ == '__main__':
@@ -85,5 +85,5 @@ if __name__ == '__main__':
 
     cipher1 = DES('Sliver Love Ariel.', 'ABCDEFGH')
     print(cipher1.ciphertext)
-    cipher2 = DES("³$ý»;N«Ì\x0f¥[æT\x14Õ\x9cPÇ\x96¯6\x98kl", 'ABCDEFGH')
+    cipher2 = DES(cipher1.ciphertext, 'ABCDEFGH')
     print(cipher2.plaintext)
