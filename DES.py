@@ -29,7 +29,7 @@ def cipher(message, key, mode='encrypt'):
 def fill(string):
     mod = len(string) % 8
     space = 8 - mod
-    return string + bytes([0 for _ in range(space)]).decode('utf-8')
+    return string + bytes(space).decode('utf-8')
 
 
 class DES:
